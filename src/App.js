@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { useRoutes } from 'hookrouter';
+import HomePage from './pages/HomePage';
+import BlogPage from './pages/BlogPage';
+import PostPage from './pages/PostPage';
+import NotFoundPage from './pages/NotFoundPage';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// Define the routes as a map of path to component rendering function
+const routes = {
+  '/': () => <HomePage />,
+  '/blog': () => <BlogPage />,  // This handles the "/blog" path
+  '/post/:id': ({ id }) => <PostPage id={id} />  // Dynamic path segment for post IDs
+};
+
+export default function App() {
+  const match = useRoutes(routes);  // This uses the routes map to find a matching route
+
+  return match || <NotFoundPage />;  // Render the matching route component or NotFoundPage if no match
 }
-
-export default App;
